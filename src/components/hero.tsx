@@ -3,10 +3,12 @@
 import styled from "styled-components";
 import Image from 'next/image';
 import HeroImg from "../assets/hero.svg"
+import Link from 'next/link';
 
 const StyledSection = styled.section`
   padding: 0 2rem;
   display: flex;
+  align-items: center;
   width: 100%;
   height: 100%;
 `;
@@ -31,18 +33,18 @@ const StyledImgContainer = styled.div`
 const StyledHeroInfo = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10rem 3.8rem;
+  padding: 5rem 3.8rem;
   gap: 3rem;
   flex: 1;
 `;
 
-const StyledButton = styled.div`
+const StyledLink = styled(Link)`
   cursor: pointer;
   display: flex;
   font-size: 1.125rem;
   justify-content: center;
   align-items: center;
-  width: 171px;
+  width: 250px;
   height: 57px;
   border: none;
   background: var(--primary-button);
@@ -59,14 +61,13 @@ const Hero = () => {
   return (
     <StyledSection>
       <StyledHeroInfo>
-        <StyledH1>Visualize Your Colors <br /> On a Real Website</StyledH1>
+        <StyledH1>Explore o Universo Marvel e Descubra os Heróis Mais Incríveis</StyledH1>
         <StyledP>
-          Choosing a color palette for your website? Use the Toolbar below to
-          realize your choices.
+          Aventure-se em um Mundo de Fantasia e Conheça as Histórias Épicas dos Personagens Mais Adorados.
         </StyledP>
-        <StyledButton>
-          Get started
-        </StyledButton>
+        <StyledLink href="/personagens">
+          Explore o Universo Marvel
+        </StyledLink>
       </StyledHeroInfo>
       <StyledImgContainer>
 

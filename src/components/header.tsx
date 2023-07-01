@@ -1,6 +1,11 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
 import LogoMarvel from "../assets/logo.svg"
 import Image from 'next/image';
-import styled from "styled-components"
+import styled, { css } from "styled-components"
+import Link from 'next/link';
+
 
 const StyledHeader = styled.header`
     display: flex;
@@ -13,25 +18,45 @@ const StyledHeader = styled.header`
 const StyledOptions = styled.div`
     display: flex;
     align-items: center;
-    min-width: 400px;
+    min-width: 230px;
     justify-content: space-between;
     gap: 0.75rem;
 `
 
+const StyledLink = styled.a<{ path?: string }>`
+  font-size: 1.2rem;
+  transition: all 0.2s;
+  color: ${(props) =>
+        props.href === props.path ? "var(--primary-button)" : "inherit"};
+
+  &:hover {
+    color: var(--primary-button);
+  }
+`;
+
 const Header = () => {
+    const pathname = usePathname();
+
     return (
         <StyledHeader>
-            <a href="/">
+            <Link href="/">
                 <Image
                     priority
                     src={LogoMarvel}
                     alt="Marvel"
                 />
-            </a>
+            </Link>
             <StyledOptions>
-                <a href="/">Personagens</a>
-                <a href="/">Personagens</a>
-                <a href="/">Personagens</a>
+                <Link href="/" passHref legacyBehavior>
+                    <StyledLink path={pathname}>
+                        Home
+                    </StyledLink>
+                </Link>
+                <Link href="/personagens" passHref legacyBehavior>
+                    <StyledLink path={pathname}>
+                        Personagens
+                    </StyledLink>
+                </Link>
             </StyledOptions>
         </StyledHeader>
     )

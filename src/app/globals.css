@@ -1,6 +1,9 @@
 :root {
   --text: #efeced;
-  --background: #0e0c0d;
+  --text-dark: #737380;
+  --text-darker: #888894;
+  --background: #141515;
+  --bg-secondary: #F3F5F6;
   --primary-button: #ec1d24;
   --secondary-button: #1e1a1c;
   --accent: #8c7880;
@@ -22,6 +25,10 @@ body {
   overflow-x: hidden;
 }
 
+main {
+  padding: 0 2rem;
+}
+
 a {
   text-decoration: none;
 }
@@ -32,5 +39,5 @@ header a {
 }
 
 img {
-  max-width: 100%
+  max-width: 100%;
 }
