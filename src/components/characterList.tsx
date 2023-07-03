@@ -1,9 +1,7 @@
 "use client"
 
-import { getCharacters } from "@/api/api";
-import { useLoaded } from "@/hooks/useLoaded";
-import { Character } from "@/types/character";
-import React, { useEffect, useState } from "react";
+import { useFilter } from "@/hooks/useFilter";
+import React from "react";
 import { styled } from "styled-components";
 import CardCharacter from "@/components/cardCharacter"
 
@@ -14,46 +12,56 @@ const Grid = styled.div`
   grid-gap: 1.5rem;
   margin: 0 auto;
   justify-content: center;
+
+  @media screen and (max-width: 400px) {
+      grid-template-columns: repeat(auto-fit, 250px);
+  }
+
+`;
+
+const StyledFullContainer = styled.div`
+  min-height: 70vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default function CharacterList() {
-    const [characters, setCharacters] = useState<Character[]>([])
-    const { page, loaded, setLoaded } = useLoaded()
-
-    const fetchCharacters = async () => {
-        const resp = await getCharacters();
-
-        if (resp.code === 200) {
-            setCharacters(resp.data.results);
-            setLoaded(true);
-        }
-    };
-
-    useEffect(() => {
-        fetchCharacters();
-    }, [page]);
+    const { loaded, characterList } = useFilter()
 
     return (
-        <Grid>
-            {characters && characters.length > 0 ? (
-                characters.map((character) => (
-                    <CardCharacter
-                        key={character.id}
-                        url={`${character.thumbnail.path}/portrait_uncanny.${character.thumbnail.extension}`}
-                        name={character.name}
-                        id={character.id}
-                    />
-                ))
-            ) : (
-                Array.from({ length: 20 }).map((_, index) => (
-                    <CardCharacter
-                        key={index}
-                        url={null}
-                        name={null}
-                        id={null}
-                    />
-                ))
-            )}
-        </Grid>
-    )
+        <>
+            {
+                loaded ?
+                    characterList?.length > 0 ?
+                        <Grid>
+                            {characterList.map((character) => (
+                                <CardCharacter
+                                    key={character.id}
+                                    url={`${character.thumbnail.path}/portrait_uncanny.${character.thumbnail.extension}`}
+                                    name={character.name}
+                                    id={character.id}
+                                />
+                            ))}
+                        </Grid>
+                        :
+                        <StyledFullContainer>
+                            <h3>Nenhum resultado encontrado.</h3>
+                        </StyledFullContainer>
+                    : (
+                        <Grid>
+                            {Array.from({ length: 20 }).map((_, index) => (
+                                <CardCharacter
+                                    key={index}
+                                    url={null}
+                                    name={null}
+                                    id={null}
+                                />
+                            ))}
+                        </Grid>
+                    )
+            }
+        </>
+    );
 }

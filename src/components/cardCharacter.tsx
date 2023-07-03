@@ -42,10 +42,6 @@ const Image = styled.img`
 
 const CardCharacter = ({ url, name, id }: CardCharacterProps) => {
 
-  const handleCardClick = () => {
-
-  }
-
   return (
     <Card href={`/personagens/${id}`}>
       {url ? (

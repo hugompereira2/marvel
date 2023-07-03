@@ -1,8 +1,9 @@
 "use client"
 
-import CharacterList from "@/components/characterList";
+import Character from "@/components/character";
 import { styled } from "styled-components";
-import { getCharacterById } from "@/api/api";
+import { getCharacterById, getCharacterComicsById } from "@/api/api";
+import { Character as CharacterProps, Comic } from "@/types/types";
 import { useEffect, useState } from "react";
 
 const StyledContainer = styled.div`
@@ -16,36 +17,29 @@ interface PageProps {
   };
 }
 
-// async function getData() {
-//   const res = await fetch('https://gateway.marvel.com/v1/public/characters/1011334?apikey=cca61f51700a5039fc1e7fb464c5933f')
-//   // The return value is *not* serialized
-//   // You can return Date, Map, Set, etc.
+export default function CharacterPage({ params: { id } }: PageProps) {
+  const [character, setCharacter] = useState<CharacterProps>();
 
-//   // Recommendation: handle errors
-//   if (!res.ok) {
-//     // This will activate the closest `error.js` Error Boundary
-//     throw new Error('Failed to fetch data')
-//   }
+  const fetchCharacterInfo = async () => {
+    const [characterResp, comicsResp] = await Promise.all([
+      getCharacterById(parseInt(id)),
+      getCharacterComicsById(parseInt(id))
+    ]);
 
-//   return res.json()
-// }
-
-export default async function CharacterPage({ params: { id } }: PageProps) {
-  const [character, setCharacters] = useState();
-
-  const fetchChacter = async () => {
-    const resp = await getCharacterById(parseInt(id))
-    console.log(resp)
+    if (characterResp.code === 200 && comicsResp.code === 200) {
+      const characterFound = characterResp.data.results[0] as CharacterProps;
+      const comicsFound: Comic[] = comicsResp.data.results;
+      setCharacter({comicSimplified: comicsFound, ...characterFound});
+    }
   }
 
   useEffect(() => {
-    fetchChacter();
-  }, [])
+    fetchCharacterInfo();
+  }, [id])
 
   return (
-    <main>
-      <StyledContainer>
-      </StyledContainer>
-    </main>
+    <StyledContainer>
+      <Character character={character} />
+    </StyledContainer>
   );
 }

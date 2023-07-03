@@ -1,54 +1,86 @@
+import { useFilter } from "@/hooks/useFilter";
+import React from 'react';
 import styled from 'styled-components';
-import { Bebas_Neue, Roboto } from 'next/font/google';
-import { useState } from "react";
-import { useLoaded } from "@/hooks/useLoaded";
 
-const roboto = Roboto({ weight: "700", subsets: ['latin'] });
-
-interface pageNumberProps {
-  url: string;
-  name: string;
-}
-
-const StyledDiv = styled.div`
+const PageNumberContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
 `;
 
-const StyledSpan = styled.button`
-  height: 25px;
-  width: 25px;
+const PageButton = styled.button<{ isActive: boolean }>`
+  height: 33px;
+  width: 30px;
   display: flex;
-  font-family: inherit;
   justify-content: center;
-  border: none;
   align-items: center;
+  border: none;
   border-radius: 4px;
   font-weight: 600;
   color: var(--text-darker);
-  font-weight: 600;
   cursor: pointer;
   background: #e9e9f0;
+  ${({ isActive }) =>
+    isActive &&
+    `
+    background: var(--primary-button);
+    color: white;
+    font-weight: 800;
+  `}
 `;
 
-const pageNumber: React.FC<any> = ({ url, name }) => {
-  const { loaded, setPage } = useLoaded();
+const PageNumber = () => {
+  const { page, setPage, totalItems } = useFilter()
 
+  const totalPages = Math.ceil(totalItems / 20);
+  const maxVisiblePages = 5;
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+
+  const getPageNumbers = () => {
+    const pages: number[] = [];
+    const maxPages = Math.min(totalPages, maxVisiblePages);
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else if (page <= maxPages - Math.floor(maxVisiblePages / 2)) {
+      for (let i = 1; i <= maxPages; i++) {
+        pages.push(i);
+      }
+    } else if (page >= totalPages - Math.floor(maxVisiblePages / 2)) {
+      for (let i = totalPages - maxPages + 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const maxLeft = page - Math.floor(maxVisiblePages / 2);
+      const maxRight = maxLeft + maxPages - 1;
+
+      for (let i = maxLeft; i <= maxRight; i++) {
+        pages.push(i);
+      }
+    }
+
+    return pages;
+  };
 
   return (
-    loaded &&
-    <StyledDiv className={roboto.className}>
-      <StyledSpan onClick={() => setPage(1)}>1</StyledSpan>
-      <StyledSpan onClick={() => setPage(2)}>2</StyledSpan>
-      <StyledSpan onClick={() => setPage(3)}>3</StyledSpan>
-      <StyledSpan onClick={() => setPage(4)}>4</StyledSpan>
-      <StyledSpan onClick={() => setPage(5)}>5</StyledSpan>
-      <StyledSpan>&lt;</StyledSpan>
-      <StyledSpan>&gt;</StyledSpan>
-    </StyledDiv >
+    <PageNumberContainer>
+      {getPageNumbers().map((pageNumber) => (
+        <PageButton
+          key={pageNumber}
+          onClick={() => handlePageChange(pageNumber)}
+          isActive={pageNumber === page}
+        >
+          {pageNumber}
+        </PageButton>
+      ))}
+    </PageNumberContainer>
   );
 };
 
-export default pageNumber;
+export default PageNumber;

@@ -3,7 +3,7 @@
 import CharacterList from "@/components/characterList";
 import { styled } from "styled-components";
 import FilterOptions from "@/components/filterOptions";
-import { LoadedContextProvider } from '@/contexts/loadedContext';
+import { FilterContextProvider } from '@/contexts/filterContext';
 
 const StyledContainer = styled.div`
   max-width: 1300px;
@@ -16,11 +16,11 @@ export default function Characters() {
   return (
     <main>
       <StyledContainer>
-        <LoadedContextProvider>
+        <FilterContextProvider>
           <FilterOptions isSearch />
           <CharacterList />
           <FilterOptions />
-        </LoadedContextProvider>
+        </FilterContextProvider>
       </StyledContainer>
     </main>
   );

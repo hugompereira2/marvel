@@ -3,7 +3,7 @@
   --text-dark: #737380;
   --text-darker: #888894;
   --background: #141515;
-  --bg-secondary: #F3F5F6;
+  --bg-secondary: #f3f5f6;
   --primary-button: #ec1d24;
   --secondary-button: #1e1a1c;
   --accent: #8c7880;
@@ -23,6 +23,15 @@ body {
   max-width: 1720px;
   min-height: 100vh;
   overflow-x: hidden;
+  scroll-behavior: smooth;
+
+  @media (max-width: 1080px) {
+    font-size: 93.75%;
+  }
+
+  @media (max-width: 720px) {
+    font-size: 87.5%;
+  }
 }
 
 main {

@@ -10,9 +10,16 @@ import Link from 'next/link';
 const StyledHeader = styled.header`
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
+    gap: 1.5rem;
     height: 90px;
     padding: 1.25rem 2rem;
+
+    @media screen and (max-width: 400px) {
+        justify-content: center;
+        height: 120px;
+  }
 `
 
 const StyledOptions = styled.div`
@@ -21,6 +28,10 @@ const StyledOptions = styled.div`
     min-width: 230px;
     justify-content: space-between;
     gap: 0.75rem;
+
+    @media screen and (max-width: 675px) {
+        min-width: 200px;
+  }
 `
 
 const StyledLink = styled.a<{ path?: string }>`

@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { SearchIcon } from "./icons/search-icon";
 import Skeleton from 'react-loading-skeleton';
 import "react-loading-skeleton/dist/skeleton.css";
-import { useLoaded } from "@/hooks/useLoaded";
+import { useFilter } from "@/hooks/useFilter";
 
 export const PrimaryInput = styled.input`
   width: 352px;
@@ -20,6 +20,10 @@ export const PrimaryInput = styled.input`
   font-size: 14px;
   line-height: 22px;
   color: var(--text-dark);
+
+  @media screen and (max-width:450px) {
+    width: 290px;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -31,6 +35,10 @@ const InputContainer = styled.div`
     top: 50%;
     transform: translateY(-50%);
   }
+
+  @media screen and (max-width:450px) {
+    width: 290px;
+  }
 `;
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -38,20 +46,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export default function SearchInput(props: InputProps) {
-  const { loaded } = useLoaded();
+  const { loaded } = useFilter();
 
   const { handleChange, ...inputProps } = props;
 
   return (
     <InputContainer>
-      {loaded ?
-        <>
-          <PrimaryInput onChange={(event) => handleChange(event.target.value)} {...inputProps} />
-          <SearchIcon />
-        </>
-        :
-        <Skeleton containerClassName="flex-1" baseColor="#202224" highlightColor="#313131" height={44} />
-      }
+      <PrimaryInput onChange={(event) => handleChange(event.target.value)} {...inputProps} />
+      <SearchIcon />
     </InputContainer>
   );
 }

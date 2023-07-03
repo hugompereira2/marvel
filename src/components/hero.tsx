@@ -11,11 +11,19 @@ const StyledSection = styled.section`
   align-items: center;
   width: 100%;
   height: 100%;
+
+  @media screen and (max-width: 400px) {
+    padding: 0;
+  }
 `;
 
 const StyledH1 = styled.h1`
   font-size: 3rem;
   font-weight: 700;
+
+  @media screen and (max-width: 400px) {
+    font-size: 2rem;
+  }
 `;
 
 const StyledP = styled.p`
@@ -28,6 +36,10 @@ const StyledImgContainer = styled.div`
   img {
     max-height: 650px;
   }
+
+  @media screen and (max-width: 1160px) {
+    display: none;
+  }
 `;
 
 const StyledHeroInfo = styled.div`
@@ -36,6 +48,10 @@ const StyledHeroInfo = styled.div`
   padding: 5rem 3.8rem;
   gap: 3rem;
   flex: 1;
+
+  @media screen and (max-width: 675px) {
+    padding: 3.5rem 0;
+  }
 `;
 
 const StyledLink = styled(Link)`
