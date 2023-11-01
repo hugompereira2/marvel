@@ -6,6 +6,12 @@
   </sub>
 </div>
 
+<br>
+
+<p align="center">
+  <img src="./marvel.png" alt="Marvel Image">
+</p>
+
 ## Summary
 
 The project utilizes the Marvel API to obtain information about comic books. With this API, it is possible to list and display details of the available comic books, such as title, description, cover image, and other relevant attributes.
